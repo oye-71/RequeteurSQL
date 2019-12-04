@@ -2,39 +2,38 @@
 
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="../src/css/requeteurcss.css">
 </head>
 
 <body>
-    <h1>Choisissez la requête voulue</h1>
+    <header>
+        <form method="post" action="index.php">
+            <label class="header-label">Search by :</label>
+            <input class="header-button" type="submit" name="select" value="Films">
+            <input class="header-button" type="submit" name="select" value="Authors">
+            <input class="header-button" type="submit" name="select" value="Languages">
+            <input class="header-button" type="submit" name="select" value="Categories">
+        </form>
+    </header>
     <div class="container">
-    <form method="post" action="index.php">
-        <input type="submit" name="select" value="SELECT">
-        <input type="submit" name="insert" value="INSERT">
-        <input type="submit" name="delete" value="DELETE">
-        <input type="submit" name="update" value="UPDATE">
-    </form>
-    <br/>
-    <?php
-    require 'display_functions.php';
-        if(isset($_POST))
-        {
-            if(isset($_POST["select"])){
-                displaySelectForm();
-            }
-            else if(isset($_POST["insert"])){
-                displayInsertForm();
-            }
-            else if(isset($_POST["delete"])){
-                displayDeleteForm();
-            }
-            else if(isset($_POST["update"])){
-                displayUpdateForm();
-            }
-            else if (isset($_POST["submit_select"]) || isset($_POST["submit_insert"]) || isset($_POST["submit_delete"]) || isset($_POST["submit_update"])){
+        <br />
+        <?php
+        require 'display_functions.php';
+        require 'PDO_query.php';
+        if (isset($_POST)) {
+            if (isset($_POST["select"])) {
+                displaySelectForm($_POST["select"]);
+            } else if (isset($_POST["request"])) {
                 echo "Requête en cours...<br/>";
-                echo "Résultats de la requête dans la table <b>".$_POST['table']."</b> :";
+                $queryResult = PDO_query("SELECT * FROM " . $_POST['table'] . " LIMIT 10;");
+                echo "Résultats de la requête dans la table <b>" . $_POST['table'] . "</b> :<br>";
+                if ($queryResult != false) {
+                    print_r($queryResult->fetchAll());
+                } else {
+                    echo "Pas de résultat pour cette table";
+                }
             }
         }
-    ?>
+        ?>
     </div>
 </body>
