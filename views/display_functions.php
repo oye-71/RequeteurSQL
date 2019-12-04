@@ -2,6 +2,8 @@
 
 /**
  * Affichage du formulaire pour la requête SELECT
+ * 
+ * @param mixed $type String contenant le type de requête que l'on va effectuer
  */
 function displaySelectForm($type)
 {
@@ -9,27 +11,30 @@ function displaySelectForm($type)
     <h1>Research by : <?php echo $type; ?></h1>
     <form class="request-form" method="post" action="index.php">
         <!-- listes des tables et des propriétés à faire dynamiquement avec une requête -->
-        <select name="table">
+        <!--select name="table">
             <option value="none">None</option>
             <option value="actor">Actor</option>
             <option value="address">Address</option>
             <option value="category">Category</option>
             <option value="city">City</option>
             <option value="country">Country</option>
-        </select>
+        </select-->
         <input class="text-input" type="text" name="content" placeholder="What are you thinking about ?">
-        <input type="submit" name="request" value="Request">
+        <br /><br />
+        <input class="red-button" type="submit" name="request" value="Request">
     </form>
 <?php
 }
 
 /**
  * Affichage d'un tableau de résultats en fonction de la requête envoyée
+ * 
+ * @param mixed $queryResult Résultat d'une requête PDO.
  */
 function displayRequestResults($queryResult)
 {
     ?>
-    <br/>
+    <br />
     <table class="results-table">
         <thead>
             <tr>
@@ -56,5 +61,15 @@ function displayRequestResults($queryResult)
         </tbody>
     </table>
 <?php
+}
+
+function buildRequest($wordsAsString)
+{
+    $wordsAsArray = explode(" ", $wordsAsString);
+    $addToRequest = "";
+    foreach ($wordsAsArray as $word) {
+        $addToRequest = $addToRequest . " OR film.title LIKE '%$word%'";
+    }
+    return $addToRequest;
 }
 ?>
