@@ -25,10 +25,10 @@
                 displaySelectForm($_POST["select"]);
             } else if (isset($_POST["request"])) {
                 echo "Requête en cours...<br/>";
-                $queryResult = PDO_query("SELECT * FROM " . $_POST['table'] . " LIMIT 10;");
-                echo "Résultats de la requête dans la table <b>" . $_POST['table'] . "</b> :<br>";
+                $queryResult = PDO_query("SELECT * FROM " . "film"/*$_POST['table']*/ . " LIMIT 10;");
+                echo "Résultats de la requête dans la table <b>" . $_POST['table'] . "</b> :<br/>";
                 if ($queryResult != false) {
-                    print_r($queryResult->fetchAll());
+                    displayRequestResults($queryResult);    
                 } else {
                     echo "Pas de résultat pour cette table";
                 }
