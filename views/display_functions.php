@@ -27,6 +27,33 @@ function displaySelectForm($type)
 }
 
 /**
+ * Affichage du formulaire pour la requête INSERT
+ */
+function displayInsertForm(){    
+    ?>
+    <h1>Insert into database :</h1>
+    <?php
+}
+
+/**
+ * Affichage du formulaire pour la requête ALTER
+ */
+function displayAlterForm(){
+    ?>
+    <h1>Edit values into database :</h1>
+    <?php
+}
+
+/**
+ * Affichage du formulaire pour la requête DELETE
+ */
+function displayDeleteForm(){
+    ?>
+    <h1>Delete into database :</h1>
+    <?php
+}
+
+/**
  * Affichage d'un tableau de résultats en fonction de la requête envoyée
  * 
  * @param mixed $queryResult Résultat d'une requête PDO.
@@ -68,7 +95,7 @@ function buildRequest($wordsAsString)
     $wordsAsArray = explode(" ", $wordsAsString);
     $addToRequest = "";
     foreach ($wordsAsArray as $word) {
-        $addToRequest = $addToRequest . " OR film.title LIKE '%$word%'";
+        $addToRequest = $addToRequest . " AND film.title LIKE '%$word%'";
     }
     return $addToRequest;
 }

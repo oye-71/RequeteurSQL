@@ -13,6 +13,13 @@
             <input class="red-button" type="submit" name="select" value="Authors">
             <input class="red-button" type="submit" name="select" value="Languages">
             <input class="red-button" type="submit" name="select" value="Categories">
+            <!-- TODO : Editer la classe du label pour avoir plus d'espace dans la navbar 
+                        Générer uun formulaire pour les 3 autres options -->
+            <label class="header-label"> Other options : </label>
+            <input class="red-button" type="submit" name="insert" value="Add in database">
+            <input class="red-button" type="submit" name="alter" value="Edit in database">
+            <input class="red-button" type="submit" name="delete" value="Delete in database">
+
         </form>
     </header>
     <div class="container">
@@ -22,11 +29,17 @@
         if (isset($_POST)) {
             if (isset($_POST["select"])) {
                 displaySelectForm($_POST["select"]);
+            } else if (isset($_POST["insert"])) {
+                displayInsertForm();
+            } else if (isset($_POST["alter"])) {
+                displayAlterForm();
+            } else if (isset($_POST["delete"])) {
+                displayDeleteForm();
             } else if (isset($_POST["request"])) {
                 // Définition de la requête envoyée à la base
                 // TODO : Faire les requetes sur mesure
                 $addToRequest = buildRequest(($_POST['content']));
-                $queryToSend = "SELECT * FROM " . "film" . " WHERE 0=1 " . $addToRequest;
+                $queryToSend = "SELECT * FROM " . "film" . " WHERE 1=1 " . $addToRequest;
                 $queryResult = PDO_query($queryToSend);
                 echo "<br />Requête exécutée : ";
                 ?>
