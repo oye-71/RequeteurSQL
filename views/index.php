@@ -1,3 +1,9 @@
+<?php
+require 'display_functions.php';
+require 'PDO_query.php';
+require 'request_functions.php';
+?>
+
 <!DOCTYPE html>
 
 <head>
@@ -24,22 +30,19 @@
     </header>
     <div class="container">
         <?php
-        require 'display_functions.php';
-        require 'PDO_query.php';
         if (isset($_POST)) {
             if (isset($_POST["select"])) {
                 displaySelectForm($_POST["select"]);
-            } else if (isset($_POST["insert"])) {
+            } else if (isset($_POST["insert"]) || isset($_POST["continue_insert"])) {
                 displayInsertForm();
-            } else if (isset($_POST["alter"])) {
-                displayAlterForm();
-            } else if (isset($_POST["delete"])) {
+            } else if (isset($_POST["alter"]) || isset($_POST["continue_alter"])) {
+                displayUpdateForm();
+            } else if (isset($_POST["delete"]) || isset($_POST["continue_delete"])) {
                 displayDeleteForm();
             } else if (isset($_POST["request"])) {
                 // Définition de la requête envoyée à la base
                 // TODO : Faire les requetes sur mesure
-                $addToRequest = buildRequest(($_POST['content']));
-                $queryToSend = "SELECT * FROM " . "film" . " WHERE 1=1 " . $addToRequest;
+                $queryToSend = buildSelectQuery(($_POST['content']));
                 $queryResult = PDO_query($queryToSend);
                 echo "<br />Requête exécutée : ";
                 ?>
