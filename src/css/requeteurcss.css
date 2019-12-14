@@ -10,7 +10,7 @@ h1 {
 }
 
 header {
-    padding: 20px;
+    padding: 15px;
     background-color: brown;
 }
 
@@ -31,6 +31,19 @@ header {
     cursor: pointer;
 }
 
+form select {
+    background-color: none;
+    border: none;
+    border-bottom: 1px solid grey;
+    margin-bottom: 20px;
+    padding-bottom: 2px;
+    -moz-appearance:none; /* Firefox */
+    -webkit-appearance:none; /* Safari and Chrome */
+    appearance:none;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 16px;
+}
+
 .header-label {
     color: white;
 }
@@ -47,13 +60,26 @@ header {
     text-align: center;
 }
 
-.request-form .text-input {
-    width: 60%;
+.request-form input{
     font-size: 16px;
     background-color: none;
     border: none;
     border-bottom: 1px solid grey;
     padding: 5px;
+    margin-bottom: 20px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.request-form .text-input {
+    width: 60%;
+}
+
+.request-form .date-input {
+    width: auto;
+}
+
+.request-form .number-input{
+    width: 10%
 }
 
 .results-table {

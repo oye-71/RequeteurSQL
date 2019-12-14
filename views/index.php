@@ -14,35 +14,28 @@ require 'request_functions.php';
 <body>
     <header>
         <form method="post" action="index.php">
-            <label class="header-label">Search by :</label>
-            <input class="red-button" type="submit" name="select" value="Films">
-            <input class="red-button" type="submit" name="select" value="Authors">
-            <input class="red-button" type="submit" name="select" value="Languages">
-            <input class="red-button" type="submit" name="select" value="Categories">
-            <!-- TODO : Editer la classe du label pour avoir plus d'espace dans la navbar 
-                        Générer uun formulaire pour les 3 autres options -->
-            <label class="header-label"> Other options : </label>
+            <input class="red-button" type="submit" name="home" value="Home">
+            <input class="red-button" type="submit" name="select" value="Search in database">
             <input class="red-button" type="submit" name="insert" value="Add in database">
             <input class="red-button" type="submit" name="alter" value="Edit in database">
             <input class="red-button" type="submit" name="delete" value="Delete in database">
-
         </form>
     </header>
     <div class="container">
         <?php
         if (isset($_POST)) {
-            if (isset($_POST["select"])) {
-                displaySelectForm($_POST["select"]);
+            if (isset($_POST["select"]) || isset($_POST["continue_select"])) {
+                displaySelectForm();
             } else if (isset($_POST["insert"]) || isset($_POST["continue_insert"])) {
                 displayInsertForm();
             } else if (isset($_POST["alter"]) || isset($_POST["continue_alter"])) {
                 displayUpdateForm();
             } else if (isset($_POST["delete"]) || isset($_POST["continue_delete"])) {
                 displayDeleteForm();
-            } else if (isset($_POST["request"])) {
+            } else if (isset($_POST["film_select"])) {
                 // Définition de la requête envoyée à la base
                 // TODO : Faire les requetes sur mesure
-                $queryToSend = buildSelectQuery(($_POST['content']));
+                $queryToSend = buildSelectQuery("title", ($_POST['content']));
                 $queryResult = PDO_query($queryToSend);
                 echo "<br />Requête exécutée : ";
                 ?>
@@ -58,6 +51,10 @@ require 'request_functions.php';
                 } else {
                     echo "Pas de résultat pour cette table.";
                 }
+            } else {
+                ?>
+                <h1>Welcome on Mathias and Etienne's SQL CRUD</h1>
+                <?php
             }
         }
         ?>
