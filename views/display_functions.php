@@ -101,17 +101,17 @@ function displayInsertForm()
                 <br />
                 <input class="text-input" type="text" name="description" placeholder="Enter a quick synopsis for this film...">
                 <br />
-                <label>Release date : </label>
-                <input class="date-input" type="date" name="release_date">
+                <label>Release year : </label>
+                <input class="date-input" type="text" name="release_year">
                 <br />
-                <label>Category : </label>
-                <select name="category"></select>
+                <label>Category Id : </label>
+                <input class="number-input" type="number" name="category_id">
                 <br />
-                <label>Language : </label>
-                <select name="language"></select>
+                <label>Language Id : </label>
+                <input class="number-input" type="number" name="language_id">
                 <br />
-                <label>Main actor : </label>
-                <select name="actors"></select>
+                <label>Main actor Id : </label>
+                <input class="number-input" type="number" name="actor_id">
                 <br />
                 <label>Rental duration : </label>
                 <input class="number-input" type="number" name="rental_duration">
@@ -154,5 +154,15 @@ function displayUpdateForm($row)
         <input class="red-button" type="submit" name="update_row" value="Update">
     </form>
 
+    <?php
+}
+
+function displayQuery($query){
+    echo "<br />Requête exécutée : ";
+    ?>
+    <div class="code">
+        <?php echo $query ?>
+    </div>
+    <br />
     <?php
 }
