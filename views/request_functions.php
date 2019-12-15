@@ -111,6 +111,15 @@ function buildAndExecuteDeleteQuery($id)
         return false;
     }
 }
+function buildAndExecuteUpdateQuery($row){
+    $queryToSend = "Update film SET title = '".$row['title']."', description = '".$row['description']."' WHERE film_id = ".$row['id'] ;
+    echo $queryToSend;
+    if (PDO_query($queryToSend) != false) {
+        return true;
+    } else {
+        return false;
+    }
+}
 
 
 /**

@@ -28,7 +28,8 @@ require 'request_functions.php';
                 displaySelectForm();
             } else if (isset($_POST["insert"]) || isset($_POST["continue_insert"])) {
                 displayInsertForm();
-            } else if (isset($_POST["film_select"])) {
+            }
+            else if (isset($_POST["film_select"])) {
                 // Définition de la requête envoyée à la base
                 // TODO : Faire les requetes sur mesure
                 $queryToSend = buildSelectQuery("title", ($_POST['content']));
@@ -69,13 +70,22 @@ require 'request_functions.php';
                 }
             } else if(isset($_POST['edit_row'])){
                 displayUpdateForm([
+                    'id' => $_POST['id'],
                     'title' => $_POST['title'],
                     'description' => $_POST['description'],
-                    'category' => $_POST['category'],
-                    'language' => $_POST['language'],
-                    'price' => $_POST['price']
                 ]);
-            }else if (isset($_POST['delete_row'])){
+            }else if(isset($_POST['update_row'])){
+                if(buildAndExecuteUpdateQuery([
+                    'id' => $_POST['id'],
+                    'title' => $_POST['title'],
+                    'description' => $_POST['description'],
+                ])){
+                    echo "The film : ".$_POST['title']." was successfully updated !";
+                }else{
+                    echo "An error occured";
+                }
+            }
+            else if (isset($_POST['delete_row'])){
                 if(buildAndExecuteDeleteQuery($_POST['id'])){
                     echo "The film : ".$_POST['title']." was successfully deleted !";
                 }else{
