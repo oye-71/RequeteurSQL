@@ -10,7 +10,7 @@ function buildSelectQuery($table, $arguments)
     foreach ($wordsAsArray as $word) {
         $addToRequest = $addToRequest . " AND $table LIKE '%$word%' ";
     }
-    $queryToSend = "SELECT f.title as title, f.description as description, l.name as language, c.name as category, f.rental_rate as price
+    $queryToSend = "SELECT f.film_id as id, f.title as title, f.description as description, l.name as language, c.name as category, f.rental_rate as price
     FROM film AS f
     INNER JOIN language AS l ON (l.language_id = f.language_id)
     INNER JOIN film_category AS fc ON (fc.film_id = f.film_id)
@@ -18,6 +18,14 @@ function buildSelectQuery($table, $arguments)
     WHERE 1=1" . $addToRequest .
         "GROUP BY title";
     return $queryToSend;
+}
+
+function buildSimpleSelectQuery($table){
+    switch ($table) {
+        case 'category' :return "select category_id,name from category";
+        case 'Actor' : break;
+        default : break;
+    }
 }
 
 /**
@@ -91,9 +99,17 @@ function buildUpdateQuery($arguments)
 /**
  * Construction d'une requête DELETE
  */
-function buildDeleteQuery($title)
+function buildAndExecuteDeleteQuery($id)
 {
-    return "DELETE FROM film WHERE title=".$title;
+    $queryToSend = "DELETE FROM film_actor WHERE film_id='$id';".
+    "DELETE FROM inventory WHERE film_id='$id';".
+    "DELETE FROM film_category WHERE film_id='$id';".
+    "DELETE FROM film WHERE film_id=".$id;
+    if (PDO_query($queryToSend) != false) {
+        return true;
+    } else {
+        return false;
+    }
 }
 
 
@@ -125,15 +141,16 @@ function displayRequestResults($queryResult)
                     <form class="request-form" method="post" action="index.php">
                         <tr class="row">
                         <td class="td-15"><?php echo htmlspecialchars($row['title']) ?></td>
-                        <input type="hidden" name="title" value=<?php $row['title']  ?> />
+                        <input type="hidden" name="title" value="<?php echo htmlspecialchars($row['title']) ?>" />
+                        <input type="hidden" name="id" value="<?php echo htmlspecialchars($row['id']) ?>" />
                         <td class="td-50"><?php echo htmlspecialchars($row['description']) ?></td>
-                        <input type="hidden" name="description" value=<?php $row['description']  ?> />
+                        <input type="hidden" name="description" value="<?php echo htmlspecialchars($row['description']) ?>" />
                         <td class="td-15"><?php echo htmlspecialchars($row['category']) ?></td>
-                        <input type="hidden" name="category" value=<?php $row['category']  ?> />
+                        <input type="hidden" name="category" value="<?php echo htmlspecialchars($row['category']) ?>" />
                         <td class="td-10"><?php echo htmlspecialchars($row['language']) ?></td>
-                        <input type="hidden" name="language" value=<?php $row['language']  ?> />
+                        <input type="hidden" name="language" value="<?php echo htmlspecialchars($row['language']) ?>" />
                         <td class="td-10 price"><?php echo htmlspecialchars($row['price']) ?></td>
-                        <input type="hidden" name="price" value=<?php $row['price']  ?> />
+                        <input type="hidden" name="price" value="<?php echo htmlspecialchars($row['price']) ?>" />
                         <td><input class="red-button" type="submit" name="edit_row" value="Edit"></td>
                         <td><input class="red-button" type="submit" name="delete_row" value="Delete"></td>
                     </tr>

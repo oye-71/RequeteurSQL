@@ -11,9 +11,10 @@ function displaySelectForm()
         <form class="request-form" method="post" action="index.php">
             <label> Type : </label>
             <select name="table">
-                <option value="Category">Category</option>
                 <option value="Film">Film</option>
-                <option value="Language">Language</option>
+                 <!--<option value="Category">Category</option>
+                
+                <option value="Language">Language</option>-->
             </select>
             <br />
             <input class="red-button" type="submit" name="continue_select" value="Continue">
@@ -142,7 +143,7 @@ function displayInsertForm()
 /**
  * Affichage du formulaire pour la requête ALTER
  */
-function displayUpdateForm()
+function displayUpdateForm($arguments)
 {
     if (!isset($_POST["continue_update"])) {
         ?>

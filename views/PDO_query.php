@@ -13,9 +13,9 @@ function PDO_query($sql_query)
     // Tentative de connexion à la base de données
     try {
         $conn = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
-        echo "<br>Connexion OK on $dbname at $host.<br>";
+       // echo "<br>Connexion OK on $dbname at $host.<br>";
     } catch (PDOException $e) {
-        echo "A problem occured while connecting to database $host : " . $e->getMessage();
+       echo "A problem occured while connecting to database $host : " . $e->getMessage();
         return false;
     }
 

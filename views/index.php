@@ -17,8 +17,8 @@ require 'request_functions.php';
             <input class="red-button" type="submit" name="home" value="Home">
             <input class="red-button" type="submit" name="select" value="Search in database">
             <input class="red-button" type="submit" name="insert" value="Add in database">
-            <input class="red-button" type="submit" name="alter" value="Edit in database">
-            <input class="red-button" type="submit" name="delete" value="Delete in database">
+            <!--<input class="red-button" type="submit" name="alter" value="Edit in database">
+            <input class="red-button" type="submit" name="delete" value="Delete in database">-->
         </form>
     </header>
     <div class="container">
@@ -43,21 +43,7 @@ require 'request_functions.php';
                 echo "Résultats de la requête dans la table <b>" . "films"/*$_POST['table']*/ . "</b> pour la recherche <b>" . $_POST['content'] . "</b>:<br/>";
 
                 if ($queryResult != false) {
-                    displayRequestResults($queryResult);
-                    unset($_POST);
-                    if (isset($_POST)) {
-                        if(isset($_POST['edit_row'])){
-                            displayUpdateForm([
-                                'title' => $_POST['title'],
-                                'description' => $_POST['description']
-                            ]);
-                        }else if (isset($_POST['delete_row'])){
-                            $queryToSend = buildDeleteQuery($_POST['title']);
-                            $queryResult = PDO_query($queryToSend);
-                        }else {
-                            break;
-                        }
-                    }
+                    displayRequestResults($queryResult);                    
                 } else {
                     echo "Pas de résultat pour cette table.";
                 }
@@ -65,7 +51,7 @@ require 'request_functions.php';
                 if(buildInsertQueryActor($_POST['first_name'], $_POST['last_name'])){
                     echo "Actor inserted.";
                 } else {
-                    echo "An arror occured.";
+                    echo "An error occured.";
                 }
             } else if (isset($_POST["category_insert"])) {
                 if(buildInsertQueryCategory($_POST['name'])){
@@ -81,7 +67,25 @@ require 'request_functions.php';
                 } else {
                     echo "An error occured.";
                 }
-            } else {
+            } else if(isset($_POST['edit_row'])){
+                displayUpdateForm([
+                    'title' => $_POST['title'],
+                    'description' => $_POST['description'],
+                    'category' => $_POST['category'],
+                    'language' => $_POST['language'],
+                    'price' => $_POST['price']
+                ]);
+            }else if (isset($_POST['delete_row'])){
+                if(buildAndExecuteDeleteQuery($_POST['id'])){
+                    echo "The film : ".$_POST['title']." was successfully deleted !";
+                }else{
+                    echo "An error occured.";
+                }
+            }
+            
+            
+            
+            else {
                 ?>
                 <h1>Welcome on Mathias and Etienne's SQL CRUD</h1>
                 <?php
