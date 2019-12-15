@@ -51,6 +51,26 @@ require 'request_functions.php';
                 } else {
                     echo "Pas de résultat pour cette table.";
                 }
+            } else if (isset($_POST["actor_insert"])) {
+                if(buildInsertQueryActor($_POST['first_name'], $_POST['last_name'])){
+                    echo "Actor inserted.";
+                } else {
+                    echo "An arror occured.";
+                }
+            } else if (isset($_POST["category_insert"])) {
+                if(buildInsertQueryCategory($_POST['name'])){
+                    echo "Category inserted.";
+                } else {
+                    echo "An error occured.";
+                }
+            } else if (isset($_POST["film_insert"])) {
+                // TODO FILM
+            } else if (isset($_POST["language_insert"])) {
+                if(buildInsertQueryLanguage($_POST['name'])){
+                    echo "Language inserted.";
+                } else {
+                    echo "An error occured.";
+                }
             } else {
                 ?>
                 <h1>Welcome on Mathias and Etienne's SQL CRUD</h1>

@@ -77,9 +77,9 @@ function displayInsertForm()
                 case 'actor':
                     ?>
             <form class="request-form" method="post" action="index.php">
-                <input class="text-input" type="text" name="name" placeholder="Actor last name">
+                <input class="text-input" type="text" name="last_name" placeholder="Actor last name">
                 <br />
-                <input class="text-input" type="text" name="name" placeholder="Actor first name">
+                <input class="text-input" type="text" name="first_name" placeholder="Actor first name">
                 <br />
                 <input class="red-button" type="submit" name="actor_insert" value="Insert">
             </form>
@@ -97,7 +97,7 @@ function displayInsertForm()
                 case 'film':
                     ?>
             <form class="request-form" method="post" action="index.php">
-                <input class="text-input" type="text" name="name" placeholder="Film name">
+                <input class="text-input" type="text" name="title" placeholder="Film title">
                 <br />
                 <input class="text-input" type="text" name="description" placeholder="Enter a quick synopsis for this film...">
                 <br />

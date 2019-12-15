@@ -16,16 +16,65 @@ function buildSelectQuery($table, $arguments)
     INNER JOIN film_category AS fc ON (fc.film_id = f.film_id)
     INNER JOIN category AS c ON (c.category_id = fc.category_id)
     WHERE 1=1" . $addToRequest .
-    "GROUP BY title";
+        "GROUP BY title";
     return $queryToSend;
 }
 
 /**
- * Construction d'une requête INSERT
+ * Construction d'une requête INSERT pour la table actor
  */
-function buildInsertQuery($arguments)
+function buildInsertQueryActor($first_name, $last_name)
 {
-    return;
+    $queryToSend = "INSERT INTO actor (first_name, last_name) VALUES ('$first_name', '$last_name');";
+    if (PDO_query($queryToSend) != false) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+/**
+ * Construction d'une requête INSERT pour la table category
+ */
+function buildInsertQueryCategory($name)
+{
+    $queryToSend = "INSERT INTO category (name) VALUES ('$name');";
+    if (PDO_query($queryToSend) != false) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+/**
+ * Construction d'une requête INSERT pour la table film
+ */
+function buildInsertQueryFilm($title, $description, $release_year, $language_id, $rental_duration, $rental_rate, $replacement_cost, $category_id, $actor_id)
+{
+    $queryToSend = "INSERT INTO film (title, description, release_year, language_id, rental_duration, rental_rate, replacement_cost) 
+    VALUES ('$title', '$description', $release_year, $language_id, $rental_duration, $rental_rate, $replacement_cost);";
+    if ($q = PDO_query($queryToSend) != false) {
+        $newInsertedFilmData = $q->fetch();
+        $filmId = $newInsertedFilmData['film_id'];
+        $actorQuery = "INSERT INTO film_actor (actor_id, film_id) VALUES ($actor_id, $filmId);";
+        $categoryQuery = "INSERT INTO film_category (film_id, category_id) VALUES ($filmId, $category_id);";
+    } else {
+        return false;
+    }
+    return $queryToSend;
+}
+
+/**
+ * Construction d'une requête INSERT pour la table language
+ */
+function buildInsertQueryLanguage($name)
+{
+    $queryToSend = "INSERT INTO language (name) VALUES ('$name');";
+    if (PDO_query($queryToSend) != false) {
+        return true;
+    } else {
+        return false;
+    }
 }
 
 /**
