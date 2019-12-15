@@ -88,9 +88,12 @@ function buildUpdateQuery($arguments)
 /**
  * Construction d'une requête DELETE
  */
-function buildDeleteQuery($arguments)
+/**
+ * Construction d'une requête DELETE
+ */
+function buildDeleteQuery($title)
 {
-    return;
+    return "DELETE FROM film WHERE title=".$title;
 }
 
 
@@ -111,19 +114,31 @@ function displayRequestResults($queryResult)
                 <th>Category</th>
                 <th>Language</th>
                 <th>Price</th>
+                <th>Edit</th>
+                <th>Delete</th>
             </tr>
         </thead>
         <tbody>
             <?php
                 while ($row = $queryResult->fetch()) :
                     ?>
-                <tr class="row">
-                    <td class="td-15"><?php echo htmlspecialchars($row['title']) ?></td>
-                    <td class="td-50"><?php echo htmlspecialchars($row['description']) ?></td>
-                    <td class="td-15"><?php echo htmlspecialchars($row['category']) ?></td>
-                    <td class="td-10"><?php echo htmlspecialchars($row['language']) ?></td>
-                    <td class="td-10 price"><?php echo htmlspecialchars($row['price']) ?></td>
-                </tr>
+                    <form class="request-form" method="post" action="index.php">
+                        <tr class="row">
+                        <td class="td-15"><?php echo htmlspecialchars($row['title']) ?></td>
+                        <input type="hidden" name="title" value=<?php $row['title']  ?> />
+                        <td class="td-50"><?php echo htmlspecialchars($row['description']) ?></td>
+                        <input type="hidden" name="description" value=<?php $row['description']  ?> />
+                        <td class="td-15"><?php echo htmlspecialchars($row['category']) ?></td>
+                        <input type="hidden" name="category" value=<?php $row['category']  ?> />
+                        <td class="td-10"><?php echo htmlspecialchars($row['language']) ?></td>
+                        <input type="hidden" name="language" value=<?php $row['language']  ?> />
+                        <td class="td-10 price"><?php echo htmlspecialchars($row['price']) ?></td>
+                        <input type="hidden" name="price" value=<?php $row['price']  ?> />
+                        <td><input class="red-button" type="submit" name="edit_row" value="Edit"></td>
+                        <td><input class="red-button" type="submit" name="delete_row" value="Delete"></td>
+                    </tr>
+                    </form>
+
             <?php
                 endwhile;
                 ?>

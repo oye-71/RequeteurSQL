@@ -28,10 +28,6 @@ require 'request_functions.php';
                 displaySelectForm();
             } else if (isset($_POST["insert"]) || isset($_POST["continue_insert"])) {
                 displayInsertForm();
-            } else if (isset($_POST["alter"]) || isset($_POST["continue_alter"])) {
-                displayUpdateForm();
-            } else if (isset($_POST["delete"]) || isset($_POST["continue_delete"])) {
-                displayDeleteForm();
             } else if (isset($_POST["film_select"])) {
                 // Définition de la requête envoyée à la base
                 // TODO : Faire les requetes sur mesure
@@ -48,6 +44,20 @@ require 'request_functions.php';
 
                 if ($queryResult != false) {
                     displayRequestResults($queryResult);
+                    unset($_POST);
+                    if (isset($_POST)) {
+                        if(isset($_POST['edit_row'])){
+                            displayUpdateForm([
+                                'title' => $_POST['title'],
+                                'description' => $_POST['description']
+                            ]);
+                        }else if (isset($_POST['delete_row'])){
+                            $queryToSend = buildDeleteQuery($_POST['title']);
+                            $queryResult = PDO_query($queryToSend);
+                        }else {
+                            break;
+                        }
+                    }
                 } else {
                     echo "Pas de résultat pour cette table.";
                 }
