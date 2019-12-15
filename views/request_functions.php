@@ -101,24 +101,35 @@ function buildUpdateQuery($arguments)
  */
 function buildAndExecuteDeleteQuery($id)
 {
-    $queryToSend = "DELETE FROM film_actor WHERE film_id='$id';".
-    "DELETE FROM inventory WHERE film_id='$id';".
-    "DELETE FROM film_category WHERE film_id='$id';".
-    "DELETE FROM film WHERE film_id=".$id;
-    if (PDO_query($queryToSend) != false) {
+
+    $pdo= getPDO();
+    try{
+        $stmt = $pdo->prepare("DELETE FROM film_actor WHERE film_id= :id; DELETE FROM inventory WHERE film_id= :id;DELETE FROM film_category WHERE film_id= :id;DELETE FROM film WHERE film_id= :id;");
+        $stmt->execute(array( 
+                                'id' => $id
+                            ));
         return true;
-    } else {
+    }catch (PDOException $e) {
+        echo "A problem occured while executing query " . $e->getMessage();
         return false;
     }
 }
 function buildAndExecuteUpdateQuery($row){
-    $queryToSend = "Update film SET title = '".$row['title']."', description = '".$row['description']."' WHERE film_id = ".$row['id'] ;
-    echo $queryToSend;
-    if (PDO_query($queryToSend) != false) {
+    //$queryToSend = "Update film SET title = '".$row['title']."', description = '".$row['description']."' WHERE film_id = ".$row['id'] ;
+    $pdo= getPDO();
+    try{
+        $stmt = $pdo->prepare('Update film SET title = :title , description = :description WHERE film_id = :id');
+        $stmt->execute(array(   'title' => $row['title'],
+                                'description' => $row['description'],
+                                'id' => $row['id']
+                            ));
         return true;
-    } else {
+    }catch (PDOException $e) {
+        echo "A problem occured while executing query " . $e->getMessage();
         return false;
     }
+    //echo $queryToSend;
+
 }
 
 
