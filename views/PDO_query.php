@@ -1,14 +1,16 @@
 <?php
 
+
 /**
- * Retourne le résultat d'une requête envoyée à la base de donnée Sakila
+ * Retourne les résultats d'une requête sql
  */
 function PDO_query($sql_query)
 {
-    $host = "localhost";
-    $dbname = "sakila";
-    $username = "root";
-    $password = "";
+    $configs = include('config.php');
+    $host = $configs['host'];
+    $dbname = $configs['dbname'];
+    $username = $configs['username'];
+    $password = $configs['password'];
 
     // Tentative de connexion à la base de données
     try {
@@ -26,12 +28,13 @@ function PDO_query($sql_query)
     }
     return $qu;
 }
-
+// Retourne un objet PDO pour exécuter des requêtes préparées
 function getPDO(){
-    $host = "localhost";
-    $dbname = "sakila";
-    $username = "root";
-    $password = "";
+    $configs = include('config.php');
+    $host = $configs['host'];
+    $dbname = $configs['dbname'];
+    $username = $configs['username'];
+    $password = $configs['password'];
 
     // Tentative de connexion à la base de données
     try {
